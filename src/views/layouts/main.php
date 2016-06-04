@@ -30,7 +30,7 @@ JSLoggingAsset::register($this)
 
 <?php
 NavBar::begin([
-    'brandLabel' => Yii::t('audit', 'Audit'),
+    'brandLabel' => Yii::t('audit', 'Mercury Audit'),
     'brandUrl' => ['default/index'],
     'options' => ['class' => 'navbar-default navbar-fixed-top navbar-fluid'],
     'innerContainerOptions' => ['class' => 'container-fluid'],
@@ -54,7 +54,7 @@ echo Nav::widget([
 ]);
 echo Nav::widget([
     'items' => [
-        ['label' => Yii::$app->name, 'url' => Yii::$app->getHomeUrl()],
+        ['label' =>'Back to Mercury', 'url' => Yii::$app->params['mercury_frontend_url']],
     ],
     'options' => ['class' => 'navbar-nav navbar-right'],
 ]);
@@ -65,6 +65,10 @@ NavBar::end();
     <?php if (isset($this->params['breadcrumbs'])) { ?>
         <div class="breadcrumbs">
             <?= Breadcrumbs::widget([
+                'homeLink' => [
+                    'label' => 'Mercury',  // required
+                    'url' => Yii::$app->params['mercury_frontend_url'],      // optional, will be processed by Url::to()
+                ],
                 'links' => $this->params['breadcrumbs'],
             ]) ?>
         </div>
