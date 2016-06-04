@@ -219,10 +219,15 @@ class AuditController extends Controller
                     ->setTextBody($message['text'])
                     ->setHtmlBody($message['html'])
                     ->send();
+                //testing VCS on composer
+                if(1==1) {
 
-                // mark as emailed
-                $model->emailed = 1;
-                $model->save(false, ['emailed']);
+                    // mark as emailed
+                    $model->emailed = 1;
+                    $model->save(false, ['emailed']);
+                }
+
+
 
             }
         }
