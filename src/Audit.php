@@ -96,6 +96,7 @@ class Audit extends Module
      * @var bool Compress extra data generated or just keep in text? For people who don't like binary data in the DB
      */
     public $compressData = true;
+    public static $consoleCompressData = true;
 
     /**
      * @var string The callback to use to convert a user id into an identifier (username, email, ...). Can also be html.
@@ -272,6 +273,14 @@ class Audit extends Module
     public function getDb()
     {
         return Yii::$app->{$this->db};
+    }
+
+    /**
+     * @return \yii\db\Connection the database connection.
+     */
+    public static function getConsoleDb()
+    {
+        return Yii::$app->db;
     }
 
     /**

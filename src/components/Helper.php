@@ -63,7 +63,7 @@ class Helper extends \yii\base\Object
      */
     public static function compress($data)
     {
-        if (Audit::getInstance()->compressData)
+        if (Audit::$consoleCompressData)
             $data = gzcompress($data);
         return $data;
     }

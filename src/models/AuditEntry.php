@@ -152,6 +152,7 @@ class AuditEntry extends ActiveRecord
         $app = Yii::$app;
         $request = $app->request;
 
+
         $this->route = $app->requestedAction ? $app->requestedAction->uniqueId : null;
         if ($request instanceof \yii\web\Request) {
             $user = $app->user;
@@ -171,9 +172,12 @@ class AuditEntry extends ActiveRecord
      */
     public function finalize()
     {
+        $user = Yii::$app->user;
+
         $this->duration = microtime(true) - YII_BEGIN_TIME;
+        $this->user_id  = $user->isGuest ? 0 : $user->id;
         $this->memory_max = memory_get_peak_usage();
-        return $this->save(false, ['duration', 'memory_max']);
+        return $this->save(false, ['duration', 'memory_max', 'user_id']);
     }
 
     /**

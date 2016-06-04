@@ -28,7 +28,7 @@ class ActiveRecord extends \yii\db\ActiveRecord
      */
     public static function getDb()
     {
-        return Audit::getInstance()->getDb();
+        return Audit::getConsoleDb();
     }
 
     /**

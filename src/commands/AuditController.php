@@ -197,37 +197,35 @@ class AuditController extends Controller
 
                 // define params and message
                 $url = ['audit/default/view', 'id' => $model->entry_id];
-                $params = [
-                    'entry_id' => $model->entry_id,
-                    'message' => $model->message,
-                    'file' => $model->file,
-                    'line' => $model->line,
-                    'url' => Url::to($url),
-                    'link' => Html::a(Yii::t('audit', 'view audit entry'), $url),
-                ];
+
+                $link = Html::a('View Audit Entry', $url);
+
+
+
                 $message = [
-                    'subject' => Yii::t('audit', 'Audit Error in Audit Entry #{entry_id}', $params),
-                    'text' => Yii::t('audit', '{message}' . "\n" . 'in {file} on line {line}.' . "\n" . '-- {url}', $params),
-                    'html' => Yii::t('audit', '<b>{message}</b><br />in <i>{file}</i> on line <i>{line}</i>.<br/>-- {link}', $params),
+                    'subject' => "Audit Error in Audit Entry $model->entry_id",
+                    'text' => "$model->message" . "\n" . "in $model->file on line $model->line." . "\n" . "-- $link",
+                    'html' => "<b>$model->message</b><br />in <i>$model->file</i> on line <i>$model->line</i>.<br/>-- $link",
                 ];
 
                 // send email
-                Yii::$app->mailer->compose()
-                    ->setFrom([$email => 'Audit :: ' . Yii::$app->name])
-                    ->setTo($email)
-                    ->setSubject($message['subject'])
-                    ->setTextBody($message['text'])
-                    ->setHtmlBody($message['html'])
-                    ->send();
-                //testing VCS on composer
-                if(1==1) {
+                $emailParams = [
+                    'from' => [$email, 'Audit :: ' . Yii::$app->name],
+                    'to' => [$email],
+                    'template' => "kexpress_delayed_emails",
+                    'subject' => $message['subject'],
+                ];
+                $emailPayload = [
+                    'body'  => $message['html'],
+                ];
+                $mailed = Yii::$app->notifier->sendMail($emailParams, $emailPayload);
+                if($mailed['status'] != 'error') {
 
                     // mark as emailed
                     $model->emailed = 1;
                     $model->save(false, ['emailed']);
+
                 }
-
-
 
             }
         }
