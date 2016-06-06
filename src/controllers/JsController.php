@@ -12,7 +12,7 @@ use yii\web\Response;
  * JsLogController
  * @package bedezign\yii2\audit\controllers
  */
-class JsLogController extends \yii\web\Controller
+class JsController extends \yii\web\Controller
 {
     /**
      * @param \yii\base\Action $action
