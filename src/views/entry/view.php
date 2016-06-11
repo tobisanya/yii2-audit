@@ -83,8 +83,9 @@ $this->params['breadcrumbs'][] = '#' . $model->id;
             <div class="list-group">
                 <?php
                 foreach ($panels as $id => $panel) {
+                        $access_token = Audit::getInstance()->access_token;
                     $label = '<i class="glyphicon glyphicon-chevron-right"></i>' . $panel->getLabel();
-                    echo Html::a($label, ['view', 'id' => $model->id, 'panel' => $id], [
+                    echo Html::a($label, ['view', 'id' => $model->id, 'access_token'=> @$access_token, 'panel' => $id], [
                         'class' => $panel === $activePanel ? 'list-group-item active' : 'list-group-item',
                     ]);
                 }

@@ -22,7 +22,7 @@ echo GridView::widget([
             'buttons'  => [
                 'view' => function ($url, $model) {
                     return Html::a(
-                        Html::tag('span', '', ['class' => 'glyphicon glyphicon-eye-open']), ['trail/view', 'id' => $model->id]
+                        Html::tag('span', '', ['class' => 'glyphicon glyphicon-eye-open']), ['trail/view', 'id' => $model->id, 'access_token' => @Audit::getInstance()->access_token]
                     );
                 }
             ],

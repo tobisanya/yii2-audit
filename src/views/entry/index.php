@@ -21,7 +21,18 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\ActionColumn', 'template' => '{view}'],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '{view}',
+                'buttons' => [
+                    'view' => function ($url,$model,$key) {
+                        if(Audit::getInstance()->access_token)
+                            $access_token = '&access_token='.Audit::getInstance()->access_token;
+                        $url .= @$access_token;
+                        return Html::a('View Entry', $url);
+                    },
+                ],
+            ],
             'id',
             [
                 'attribute' => 'user_id',

@@ -114,6 +114,8 @@ class Audit extends Module
      */
     public $batchSave = true;
 
+    public $access_token;
+
     /**
      * @var array|Panel[] list of panels that should be active/tracking/available during the auditing phase.
      * If the value is a simple string, it is the identifier of an internal panel to activate (with default settings)
@@ -205,6 +207,8 @@ class Audit extends Module
         // Boot all active panels
         $this->normalizePanelConfiguration();
         $this->panels = $this->loadPanels(array_keys($this->panels));
+        $this->access_token = @Yii::$app->request->queryParams['access_token'];
+
     }
 
     /**
@@ -440,6 +444,7 @@ class Audit extends Module
      */
     protected function routeMatches($route, $list)
     {
+
         $list = ArrayHelper::toArray($list);
         foreach ($list as $compare) {
             $len = strlen($compare);

@@ -21,7 +21,7 @@ echo GridView::widget([
             'buttons'  => [
                 'view' => function ($url, $model) {
                     return Html::a(
-                        Html::tag('span', '', ['class' => 'glyphicon glyphicon-eye-open']), ['error/view', 'id' => $model->id]
+                        Html::tag('span', '', ['class' => 'glyphicon glyphicon-eye-open']), ['error/view', 'id' => $model->id, 'access_token' => @\bedezign\yii2\audit\Audit::getInstance()->access_token]
                     );
                 }
             ],

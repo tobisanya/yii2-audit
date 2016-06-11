@@ -2,6 +2,7 @@
 
 namespace bedezign\yii2\audit\panels;
 
+use bedezign\yii2\audit\Audit;
 use bedezign\yii2\audit\components\Helper;
 use bedezign\yii2\audit\components\panels\Panel;
 use bedezign\yii2\audit\models\AuditError;
@@ -137,7 +138,10 @@ class ErrorPanel extends Panel
      */
     public function getIndexUrl()
     {
-        return ['error/index'];
+        if(Audit::getInstance()->access_token)
+            $access_token = '?access_token='.Audit::getInstance()->access_token;
+
+        return ['error/index'.@$access_token];
     }
 
     /**

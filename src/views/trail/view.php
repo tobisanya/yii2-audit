@@ -25,7 +25,7 @@ echo DetailView::widget([
         ],
         [
             'attribute' => 'entry_id',
-            'value' => $model->entry_id ? Html::a($model->entry_id, ['entry/view', 'id' => $model->entry_id]) : '',
+            'value' => $model->entry_id ? Html::a($model->entry_id, ['entry/view', 'id' => $model->entry_id, 'access_token' => @Audit::getInstance()->access_token]) : '',
             'format' => 'raw',
         ],
         'action',

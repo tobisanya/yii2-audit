@@ -1,5 +1,6 @@
 <?php
 
+use bedezign\yii2\audit\Audit;
 use yii\helpers\Html;
 use yii\grid\GridView;
 
@@ -21,7 +22,18 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\ActionColumn', 'template' => '{view}'],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '{view}',
+                'buttons' => [
+                    'view' => function ($url,$model,$key) {
+                        if(Audit::getInstance()->access_token)
+                            $access_token = '&access_token='.Audit::getInstance()->access_token;
+                        $url .= @$access_token;
+                        return Html::a('View Error', $url);
+                    },
+                ],
+            ],
             [
                 'attribute' => 'id',
                 'options' => [
@@ -32,7 +44,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'entry_id',
                 'class' => 'yii\grid\DataColumn',
                 'value' => function ($data) {
-                    return $data->entry_id ? Html::a($data->entry_id, ['entry/view', 'id' => $data->entry_id]) : '';
+                    $access_token = Audit::getInstance()->access_token;
+                    return $data->entry_id ? Html::a($data->entry_id, ['entry/view', 'id' => $data->entry_id, 'access_token' => $access_token]) : '';
                 },
                 'format' => 'raw',
             ],

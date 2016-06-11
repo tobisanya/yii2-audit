@@ -29,15 +29,19 @@ JSLoggingAsset::register($this)
 <?php $this->beginBody() ?>
 
 <?php
+if(Audit::getInstance()->access_token)
+    $access_token = '?access_token='.Audit::getInstance()->access_token;
+
 NavBar::begin([
     'brandLabel' => Yii::t('audit', 'Mercury Audit'),
-    'brandUrl' => ['default/index'],
+    'brandUrl' => ['default/index' . @$access_token],
     'options' => ['class' => 'navbar-default navbar-fixed-top navbar-fluid'],
     'innerContainerOptions' => ['class' => 'container-fluid'],
 ]);
 
+
 $items = [
-    ['label' => Yii::t('audit', 'Entries'), 'url' => ['entry/index']],
+    ['label' => Yii::t('audit', 'Entries'), 'url' => ['entry/index'.@$access_token]],
 ];
 foreach (Audit::getInstance()->panels as $panel) {
     /** @var Panel $panel */
@@ -62,7 +66,16 @@ NavBar::end();
 ?>
 
 <div class="container-fluid">
-    <?php if (isset($this->params['breadcrumbs'])) { ?>
+    <?php if (isset($this->params['breadcrumbs'])) {
+foreach($this->params['breadcrumbs'] as &$breadcrumb) {
+    if(isset ($breadcrumb['url'])) {
+        if(Audit::getInstance()->access_token)
+            $access_token = '?access_token='.Audit::getInstance()->access_token;
+        $breadcrumb['url'][0] .= @ $access_token;
+    }
+
+}
+    ?>
         <div class="breadcrumbs">
             <?= Breadcrumbs::widget([
                 'homeLink' => [

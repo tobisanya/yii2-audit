@@ -7,6 +7,8 @@ use yii\grid\GridView;
 use yii\helpers\Html;
 use yii\helpers\VarDumper;
 use yii\widgets\DetailView;
+use bedezign\yii2\audit\Audit;
+
 
 $this->title = Yii::t('audit', 'Error #{id}', ['id' => $model->id]);
 $this->params['breadcrumbs'][] = ['label' => Yii::t('audit', 'Audit'), 'url' => ['default/index']];
@@ -21,7 +23,7 @@ echo DetailView::widget([
         'id',
         [
             'attribute' => 'entry_id',
-            'value' => $model->entry_id ? Html::a($model->entry_id, ['entry/view', 'id' => $model->entry_id]) : '',
+            'value' => $model->entry_id ? Html::a($model->entry_id, ['entry/view', 'id' => $model->entry_id, 'access_token' => Audit::getInstance()->access_token]) : '',
             'format' => 'raw',
         ],
         'message',

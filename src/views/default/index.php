@@ -20,7 +20,8 @@ $this->registerCss('canvas {width: 100% !important;height: 400px;}');
 
     <div class="row">
         <div class="col-md-12 col-lg-12">
-            <h2><?php echo Html::a(Yii::t('audit', 'Entries'), ['entry/index']); ?></h2>
+            <?php if(Audit::getInstance()->access_token) $token_data = '?access_token='.Audit::getInstance()->access_token; ?>
+            <h2><?php echo Html::a(Yii::t('audit', 'Entries'), ["entry/index" . @$token_data]); ?></h2>
 
             <div class="well">
                 <?php
