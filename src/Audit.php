@@ -207,8 +207,7 @@ class Audit extends Module
         // Boot all active panels
         $this->normalizePanelConfiguration();
         $this->panels = $this->loadPanels(array_keys($this->panels));
-        $this->access_token = @Yii::$app->request->queryParams['access_token'];
-
+        $this->access_token = !empty(Yii::$app->request->queryParams) ? @Yii::$app->request->queryParams['access_token'] : "";
     }
 
     /**
