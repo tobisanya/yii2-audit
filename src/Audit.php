@@ -12,7 +12,6 @@ namespace bedezign\yii2\audit;
 
 use bedezign\yii2\audit\components\panels\Panel;
 use bedezign\yii2\audit\models\AuditEntry;
-use bedezign\yii2\audit\models\AuditError;
 use Yii;
 use yii\base\ActionEvent;
 use yii\base\Application;
@@ -157,6 +156,11 @@ class Audit extends Module
     public $logTarget;
 
     /**
+     * @see \yii\debug\Module::$traceLine
+     */
+    public $traceLine = \yii\debug\Module::DEFAULT_IDE_TRACELINE;
+
+    /**
      * @var array
      */
     private $_corePanels = [
@@ -293,8 +297,12 @@ class Audit extends Module
      */
     public function getEntry($create = false, $new = false)
     {
-        if ((!$this->_entry && $create) || $new) {
-            $this->_entry = AuditEntry::create(true);
+        $entry = new AuditEntry();
+        $tableSchema = $entry->getDb()->schema->getTableSchema($entry->tableName());
+        if ($tableSchema) {
+            if ((!$this->_entry && $create) || $new) {
+                $this->_entry = AuditEntry::create(true);
+            }
         }
         return $this->_entry;
     }
